@@ -6,7 +6,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.yhjia.rxjava_helloworld.bean.Person;
+import com.yhjia.rxjava_helloworld.bean.Plain;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
@@ -56,7 +60,9 @@ public class MainActivity extends AppCompatActivity {
 //                handlerNever();
 //                handlerError();
 //                handlerMap();
-                handleMap2();
+//                handleMap2();
+//                handlerFlatMap1();
+                handlerFlatMap2();
             }
         });
         // create 操作符 作用创建一个被观察者
@@ -669,5 +675,110 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    /**
+     * 这个方法可以将事件序列中的元素进行整合加工，返回一个新的被观察者。
+     * flatMap()
+     * 需求：要将Person集合中的每个元素中的Plan的action打印出来
+     * 首先用map
+     */
+    private void handlerFlatMap1() {
+        // 先使用fromInterable()
+        List<Person> persons = new ArrayList<>();
+        Plain plain = new Plain();
+        plain.setContent("aaaa");
+        plain.setActionList(Arrays.asList("a","b","c"));
+        List<Plain> plains = new ArrayList<>();
+        plains.add(plain);
+        Plain plain2 = new Plain();
+        plain2.setContent("bbbbb");
+        plain2.setActionList(Arrays.asList("a2","b2","c2"));
+        plains.add(plain2);
+        Person person = new Person("aaaa",plains);
+        persons.add(person);
+        Observable.fromIterable(persons)
+                .map(new Function<Person, List<Plain>>() {
+                    @Override
+                    public List<Plain> apply(Person person) throws Exception {
+                        return person.getPlanList();
+                    }
+                })
+                .subscribe(new Observer<List<Plain>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<Plain> plains) {
+                        for (Plain plain1 : plains) {
+                            List<String> plainActionList = plain1.getActionList();
+                            for (String action : plainActionList) {
+                                logPrint("action:" + action);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    private void handlerFlatMap2() {
+        // 先使用fromInterable()
+        List<Person> persons = new ArrayList<>();
+        Plain plain = new Plain();
+        plain.setContent("aaaa");
+        plain.setActionList(Arrays.asList("a", "b", "c"));
+        List<Plain> plains = new ArrayList<>();
+        plains.add(plain);
+        Plain plain2 = new Plain();
+        plain2.setContent("bbbbb");
+        plain2.setActionList(Arrays.asList("a2", "b2", "c2"));
+        plains.add(plain2);
+        Person person = new Person("aaaa", plains);
+        persons.add(person);
+
+        Observable.fromIterable(persons)
+                .flatMap(new Function<Person, ObservableSource<Plain>>() {
+                    @Override
+                    public ObservableSource<Plain> apply(Person person) throws Exception {
+                        return Observable.fromIterable(person.getPlanList());
+                    }
+                })
+                .flatMap(new Function<Plain, ObservableSource<String>>() {
+                    @Override
+                    public ObservableSource<String> apply(Plain plain) throws Exception {
+                        return Observable.fromIterable(plain.getActionList());
+                    }
+                }).subscribe(new Observer<String>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(String s) {
+                logPrint("onNext......:" + s);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
     }
 }
