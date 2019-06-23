@@ -7,3 +7,13 @@
 ### 创建操作符
 - create(): 创建一个被观察者
 - just(): 创建一个被观察者并发送事件  发送的事件不能超过10个以上  比create()多了并发送  不能超过10个
+- fromArray() 创建被观察者 并发送事件  和just类似 但是可以发送超过10个 可以传入一个数组
+
+
+
+
+
+
+
+### 参考链接：
+- https://blog.csdn.net/xinpengfei521/article/details/90345212
