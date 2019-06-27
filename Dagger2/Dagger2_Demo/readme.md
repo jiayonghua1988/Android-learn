@@ -34,6 +34,9 @@
 > @Module  提供依赖   Modules类里面的方法专门提供依赖  返回提供的实例构造
 
 
+## 遇到的问题
+> Test 构造函数加了一个context  并且提供了 module 一直编译不过去  由于  在别的类中也有引用 没有 引用module
+
 ## 参考：
 > https://cloud.tencent.com/developer/article/1059726
 

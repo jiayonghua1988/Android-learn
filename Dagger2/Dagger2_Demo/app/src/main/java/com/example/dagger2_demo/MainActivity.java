@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         DaggerApplicationComponent
                 .builder()
                 .androidModule(new AndroidModule((DemoApplication) getApplication()))
+
                 .build().inject(this);
 
         Log.d("Test","test=" + test);
