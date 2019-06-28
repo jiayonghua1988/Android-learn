@@ -1,4 +1,4 @@
-https://juejin.im/post/5b17560e6fb9a01e2862246f
+﻿https://juejin.im/post/5b17560e6fb9a01e2862246f
 
 ## RxJava2 只看这一篇文章就够了
 ### 0. 简介
@@ -93,3 +93,9 @@ Observable.create(new ObservableOnSubscribe < Integer > () {
 ```
 被观察者发送的事件有以下几种，总结如下表：
 其实可以把 RxJava 比喻成一个做果汁，家里有很多种水果（要发送的原始数据），你想榨点水果汁喝一下，这时候你就要想究竟要喝什么水果汁呢？如果你想喝牛油果雪梨柠檬汁，那你就要把这三种水果混在一起榨汁（使用各种操作符变换你想发送给观察者的数据），榨完后，你就可以喝上你想要的果汁了（把处理好的数据发送给观察者）。
+
+
+
+https://blog.csdn.net/fengluoye2012/article/details/79297186
+https://blog.csdn.net/carson_ho/article/details/79081407
+https://www.jianshu.com/p/a406b94f3188
