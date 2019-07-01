@@ -2613,7 +2613,50 @@ public class MainActivity extends AppCompatActivity {
         // 观察者：每次接收事件数量 = 48（点击按钮）
 
         Flowable.create(new FlowableOnSubscribe<Integer>() {
+            @Override
+            public void subscribe(FlowableEmitter<Integer> emitter) throws Exception {
+                logPrint("观察者可接收事件数量 = " + emitter.requested());
+                boolean flag;
+                // 被观察者一共需要发送500个事件
+                for (int i =0;i < 500;i++) {
+                    flag = false;
+                    // 若requested() == 0则不发送
+                    while (emitter.requested() == 0) {
+                        if (!flag) {
+                            logPrint("不再发送");
+                            flag = true;
+                        }
+                    }
 
+                    // requested() ≠ 0 才发送
+                    logPrint("发送了事件" + i + "，观察者可接收事件数量 = " +emitter.requested());
+                }
+            }
         },BackpressureStrategy.ERROR)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Integer>() {
+                    @Override
+                    public void onSubscribe(Subscription s) {
+                        logPrint("onSubscribe.....");
+                        mSubscription = s;
+                        // 初始状态 = 不接收事件；通过点击按钮接收事件
+                    }
+
+                    @Override
+                    public void onNext(Integer integer) {
+                        logPrint("接收到了事件=" + integer);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        logPrint("onError...=" +t);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        logPrint("onComplete........");
+                    }
+                });
     }
 }
