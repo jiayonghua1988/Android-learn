@@ -34,18 +34,19 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 
 
+
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResId());
         mContext = this;
-
-
         setStatusBarColor();
 
         // 注册eventBus
         if (this.getClass().isAnnotationPresent(BindEventBus.class)) {
-            EventBusHelper.register(this);
+           EventBusHelper.register(this);
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

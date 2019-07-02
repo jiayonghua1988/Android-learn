@@ -34,6 +34,7 @@
             android:button="@null"
             android:drawableTop="@drawable/selector_menu_home"
             android:gravity="center"
+            android:checked="true"
             android:text="首页"
             android:textSize="10sp" />
 

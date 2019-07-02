@@ -1,4 +1,7 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.jakewharton.butterknife'
+
+
 
 
 android {
@@ -85,4 +88,6 @@ dependencies {
 
     api rootProject.ext.dependencies['androidx-appcompat']
     api rootProject.ext.dependencies['androidx-constraintlayout']
+
+
 }

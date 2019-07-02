@@ -1,5 +1,6 @@
 package com.example.module_usercenter.activity;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.common_base.base.BaseActivity;
 import com.example.module_usercenter.R;
 
@@ -48,6 +49,6 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void gotoMainActivity() {
-
+        ARouter.getInstance().build("/main/main").navigation();
     }
 }

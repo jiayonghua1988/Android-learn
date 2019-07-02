@@ -2,3 +2,10 @@
 
 ### 遇到的问题
 - ButterKnife在library中报“Attribute value must be constant”
+- 解决组件化开发butterknife 在 library中使用的坑:https://www.jianshu.com/p/c6e3f67e391e
+- https://blog.csdn.net/Night_X/article/details/86653715
+
+
+
+### 未解决的问题
+- 在library中无法使用 ButterKnife
