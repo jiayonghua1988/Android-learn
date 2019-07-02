@@ -1,0 +1,22 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.module_usercenter">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!--作为单独组件时，需要配置 application name 和程序入口-->
+    <application>
+
+        <activity
+            android:name=".activity.UserMainActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
