@@ -7,14 +7,20 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.RadioGroup;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.common_base.R;
 import com.example.common_base.annotation.BindEventBus;
 import com.example.common_base.receiver.NetworkChangeReceiver;
 import com.example.common_base.util.EventBusHelper;
 import com.example.common_base.util.StatusBarUtil;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * 非MVP 项目
@@ -26,11 +32,14 @@ public abstract class BaseActivity extends AppCompatActivity {
    protected Context mContext;
     private NetworkChangeReceiver receiver;
 
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResId());
         mContext = this;
+
 
         setStatusBarColor();
 
@@ -73,6 +82,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (this.getClass().isAnnotationPresent(BindEventBus.class)) {
             EventBusHelper.unregister(this);
         }
+
+
     }
 
     /**

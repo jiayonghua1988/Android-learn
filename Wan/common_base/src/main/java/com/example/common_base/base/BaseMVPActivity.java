@@ -12,7 +12,7 @@ import butterknife.Unbinder;
 public abstract class BaseMVPActivity<P extends IPresenter> extends BaseActivity implements IView {
 
     protected P presenter;
-    private Unbinder unbinder;
+
 
     @Override
     protected void initData() {
@@ -22,8 +22,6 @@ public abstract class BaseMVPActivity<P extends IPresenter> extends BaseActivity
         if (presenter != null) {
             presenter.attachView(this);
         }
-        unbinder = ButterKnife.bind(this);
-
     }
 
     @Override
@@ -45,10 +43,6 @@ public abstract class BaseMVPActivity<P extends IPresenter> extends BaseActivity
         if (presenter != null) {
             presenter.detachView();
             presenter = null;
-        }
-        // 取消ButterKnife
-        if (unbinder != null) {
-            unbinder.unbind();
         }
     }
 }

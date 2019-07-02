@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 
+
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -44,4 +46,6 @@ dependencies {
     }
     // 如果 app 主工程中使用了 Arouter 注解，那就需要这个 annotationProcessor
     annotationProcessor rootProject.ext.dependencies['arouter-compiler']
+
+
 }

@@ -28,6 +28,10 @@ buildscript {
         //避免butterKnife在library中使用出现id冲突
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2' // add plugin
         classpath 'org.aspectj:aspectjtools:1.8.9'
+
+
+
+
     }
 }
 
