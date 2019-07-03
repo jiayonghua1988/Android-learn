@@ -2,6 +2,8 @@ package com.example.module_main.fragment;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -21,12 +23,15 @@ import com.example.common_base.base.BaseMVPFragment;
 import com.example.common_base.constants.Constants;
 import com.example.common_base.util.StatusBarUtil;
 import com.example.common_base.widget.LinearItemDecoration;
+import com.example.common_base.widget.gridviewpager.GridRecyclerAdapter;
 import com.example.common_base.widget.gridviewpager.GridViewPager;
+import com.example.common_base.widget.gridviewpager.GridViewPagerAdapter;
 import com.example.module_main.R;
 import com.example.module_main.activity._MainActivity;
 import com.example.module_main.adapter.HomeArticleAdapter;
 import com.example.module_main.bean.BannerResult;
 import com.example.module_main.bean.HomeArticleResult;
+import com.example.module_main.bean.WeChatAuthorResult;
 import com.example.module_main.contract.HomeContract;
 import com.example.module_main.imageloader.GlideImageLoader;
 import com.example.module_main.presenter.HomePresenter;
@@ -103,6 +108,8 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
         presenter.getBanner();
         // 请求首页文章列表
         presenter.getHomeArticles(page);
+        // 请求微信公众号列表
+        presenter.getWeChatAuthors();
 
     }
 
@@ -193,6 +200,32 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
         });
         banner.start();
 
+    }
+
+    @Override
+    public void onWeChatAuthors(List<WeChatAuthorResult> weChatAuthorResults) {
+        if (weChatAuthorResults == null) {
+            return;
+        }
+        gridViewPager.setOnGridItemClickListener(new GridViewPager.OnGridItemClickListener() {
+            @Override
+            public void onGridItemClick(int position, View view) {
+
+            }
+        });
+
+        gridViewPager.setAdapter(new GridViewPagerAdapter<WeChatAuthorResult>(weChatAuthorResults) {
+
+            @Override
+            public void bindData(GridRecyclerAdapter.ViewHolder viewHolder, WeChatAuthorResult weChatAuthorResult, int position) {
+                ShapeDrawable shapeDrawable = new ShapeDrawable();
+                shapeDrawable.setShape(new OvalShape());
+                shapeDrawable.getPaint().setColor(colors[position % colors.length]);
+                viewHolder.setText(R.id.tv_home_author_icon, String.valueOf(weChatAuthorResult.getName().charAt(0)))
+                        .setText(R.id.tv_home_author_name, weChatAuthorResult.getName())
+                        .setBackground(R.id.tv_home_author_icon, shapeDrawable);
+            }
+        });
     }
 
     @Override

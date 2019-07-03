@@ -5,6 +5,7 @@ import com.example.common_base.mvp.BasePresenter;
 import com.example.module_main.apiservice.MainApiService;
 import com.example.module_main.bean.BannerResult;
 import com.example.module_main.bean.HomeArticleResult;
+import com.example.module_main.bean.WeChatAuthorResult;
 import com.example.module_main.contract.HomeContract;
 
 import java.util.List;
@@ -25,7 +26,15 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
 
     @Override
     public void getWeChatAuthors() {
+        addSubscribe(create(MainApiService.class).getWeChatAuthors(), new BaseObserver<List<WeChatAuthorResult>>(getView()) {
 
+            @Override
+            protected void onSuccess(List<WeChatAuthorResult> data) {
+                if (isViewAttached()) {
+                    getView().onWeChatAuthors(data);
+                }
+            }
+        });
     }
 
     @Override

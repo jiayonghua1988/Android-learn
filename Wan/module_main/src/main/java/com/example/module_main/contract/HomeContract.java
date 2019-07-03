@@ -4,6 +4,7 @@ import com.example.common_base.mvp.IPresenter;
 import com.example.common_base.mvp.IView;
 import com.example.module_main.bean.BannerResult;
 import com.example.module_main.bean.HomeArticleResult;
+import com.example.module_main.bean.WeChatAuthorResult;
 
 import java.util.List;
 
@@ -14,6 +15,12 @@ public interface HomeContract {
          * banner 数据回调
          */
         void onBanner(List<BannerResult> bannerResults);
+
+        /**
+         * 公众号数据回调
+         */
+        void onWeChatAuthors(List<WeChatAuthorResult> weChatAuthorResults);
+
 
         /**
          * 首页文章列表数据回调

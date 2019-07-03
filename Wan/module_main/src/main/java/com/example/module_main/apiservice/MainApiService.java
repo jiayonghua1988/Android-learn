@@ -3,6 +3,7 @@ package com.example.module_main.apiservice;
 import com.example.common_base.base.BaseResponse;
 import com.example.module_main.bean.BannerResult;
 import com.example.module_main.bean.HomeArticleResult;
+import com.example.module_main.bean.WeChatAuthorResult;
 
 import java.util.List;
 
@@ -22,5 +23,8 @@ public interface MainApiService {
 
     @GET("/article/list/{page}/json")
     Observable<BaseResponse<HomeArticleResult>> getHomeArticles(@Path("page") int page);
+
+    @GET("wxarticle/chapters/json")
+    Observable<BaseResponse<List<WeChatAuthorResult>>> getWeChatAuthors();
 
 }

@@ -9,7 +9,7 @@
 - https://blog.csdn.net/Night_X/article/details/86653715
 - AndroidStudio报错Manifest merger failed : Attribute application@appComponentFactory value=(android.sup
  https://blog.csdn.net/zxwd2015/article/details/86651216
-
+- 使用 Androidx 后support包找不到了，经查资料 发现 androidx 是对support 包的整合 废弃support
 
 
 ### 未解决的问题
