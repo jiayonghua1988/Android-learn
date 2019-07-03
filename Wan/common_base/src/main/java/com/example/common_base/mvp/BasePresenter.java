@@ -3,11 +3,10 @@ package com.example.common_base.mvp;
 import android.content.Context;
 
 import com.example.common_base.base.BaseObserver;
-
+import com.example.common_base.http.RetrofitClient;
 import java.lang.ref.WeakReference;
 
 import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
@@ -78,6 +77,10 @@ public class BasePresenter<V extends IView> implements IPresenter<V> {
         if (compositeDisposable != null) {
             compositeDisposable.dispose();
         }
+    }
+
+    protected <T> T create(Class<T> clazz) {
+        return RetrofitClient.getInstance().getRetrofit().create(clazz);
     }
 
 }

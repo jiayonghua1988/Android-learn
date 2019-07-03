@@ -54,6 +54,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
 
         registerNetworkChangeReceiver();
+        initView();
+        initData();
     }
 
     protected abstract int getLayoutResId();

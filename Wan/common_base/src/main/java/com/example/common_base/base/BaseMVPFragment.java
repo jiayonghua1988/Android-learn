@@ -1,5 +1,6 @@
 package com.example.common_base.base;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -39,4 +40,15 @@ public abstract class BaseMVPFragment<P extends IPresenter> extends BaseFragment
         }
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mContext = activity;
+    }
 }

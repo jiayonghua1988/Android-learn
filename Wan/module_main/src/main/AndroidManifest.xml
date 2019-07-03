@@ -6,6 +6,7 @@
         <activity android:name=".activity._MainActivity"
             android:launchMode="singleTask"
             />
+        <activity android:name=".activity.WebViewActivity" />
 
     </application>
 

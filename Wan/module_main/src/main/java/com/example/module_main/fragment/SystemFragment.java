@@ -3,17 +3,18 @@ package com.example.module_main.fragment;
 import android.view.View;
 
 import com.example.common_base.base.BaseMVPFragment;
+import com.example.module_main.R;
 import com.example.module_main.presenter.SystemPresenter;
 
 public class SystemFragment extends BaseMVPFragment<SystemPresenter> {
     @Override
     protected SystemPresenter createPresenter() {
-        return null;
+        return new SystemPresenter();
     }
 
     @Override
     protected int getLayoutResId() {
-        return 0;
+        return R.layout.fragment_system;
     }
 
     @Override

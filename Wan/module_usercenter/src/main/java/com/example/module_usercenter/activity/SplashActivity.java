@@ -50,5 +50,6 @@ public class SplashActivity extends BaseActivity {
 
     private void gotoMainActivity() {
         ARouter.getInstance().build("/main/main").navigation();
+        finish();
     }
 }

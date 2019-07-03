@@ -1,8 +1,10 @@
 package com.example.common_base.util;
 
+
 import org.greenrobot.eventbus.EventBus;
 
 public class EventBusHelper {
+
     private EventBusHelper() {
         throw new UnsupportedOperationException("can't be init");
     }
@@ -22,4 +24,5 @@ public class EventBusHelper {
     public static void postSticky(Object object) {
         EventBus.getDefault().postSticky(object);
     }
+
 }

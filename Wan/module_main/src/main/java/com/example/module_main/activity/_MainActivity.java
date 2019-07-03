@@ -2,6 +2,7 @@ package com.example.module_main.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -15,6 +16,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.example.common_base.R2;
 import com.example.common_base.annotation.BindEventBus;
 import com.example.common_base.base.BaseActivity;
+import com.example.common_base.util.StatusBarUtil;
 import com.example.module_main.R;
 import com.example.module_main.fragment.HomeFragment;
 import com.example.module_main.fragment.MineFragment;
@@ -126,6 +128,14 @@ public class _MainActivity extends BaseActivity {
             }
         }
         ft.commit();
+    }
+
+    public void setStatusBarTranslucent(int alpha) {
+        StatusBarUtil.setTranslucentForImageViewInFragment(this, alpha, null);
+    }
+
+    public void setStatusBarTextColorBlack() {
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//黑色
     }
 
 }
