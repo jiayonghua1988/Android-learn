@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.common_base.base.BaseMVPFragment;
 import com.example.common_base.constants.Constants;
 import com.example.common_base.util.StatusBarUtil;
@@ -64,6 +65,7 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
     private int searchLayoutHeight;
     private int bannerHeight;
     private HomeArticleAdapter homeArticleAdapter;
+    private List<BannerResult> bannerResults;
 
 
     @Override
@@ -86,7 +88,6 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
         loginTxtView =  rootView.findViewById(R.id.tv_home_login);
         searchTxtView =  rootView.findViewById(R.id.tv_home_search);
 
-
         headerView = LayoutInflater.from(mContext).inflate(R.layout.layout_home_header, null);
         banner =  headerView.findViewById(R.id.banner_home);
         gridViewPager =  headerView.findViewById(R.id.gvp_viewpager);
@@ -101,6 +102,19 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
         LinearItemDecoration linearItemDecoration = new LinearItemDecoration(mContext);
         linearItemDecoration.height(8f).color(Color.parseColor("#66dddddd"));
         recyclerView.addItemDecoration(linearItemDecoration);
+
+        homeArticleAdapter = new HomeArticleAdapter(R.layout.item_home_article,new ArrayList<>());
+
+        homeArticleAdapter.addHeaderView(headerView);
+        recyclerView.setAdapter(homeArticleAdapter);
+
+        homeArticleAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                gotoWebViewActivity((HomeArticleResult.DatasBean)adapter.getItem(position));
+            }
+        });
+
         setListener();
         //设置图片加载器
         banner.setImageLoader(new GlideImageLoader());
@@ -147,6 +161,8 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
                 refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
                 page = 0;
                 presenter.getHomeArticles(page);
+                presenter.getWeChatAuthors();
+                presenter.getBanner();
             }
         });
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
@@ -154,6 +170,18 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
             public void onLoadMore(RefreshLayout refreshlayout) {
                 presenter.getHomeArticles(page);
                 refreshlayout.finishLoadMore(2000/*,false*/);//传入false表示加载失败
+            }
+        });
+
+
+        banner.setOnBannerListener(new OnBannerListener() {
+            @Override
+            public void OnBannerClick(int position) {
+                Log.e("Test","banner:" +position);
+                if (bannerResults != null && bannerResults.size() > position) {
+                    BannerResult bannerResult = bannerResults.get(position);
+                    gotoWebViewActivityFromBanner(bannerResult);
+                }
             }
         });
     }
@@ -190,14 +218,8 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
         if (bannerResults == null || bannerResults.size() == 0){
             return;
         }
+        this.bannerResults = bannerResults;
         banner.setImages(getImages(bannerResults));
-        banner.setOnBannerListener(new OnBannerListener() {
-            @Override
-            public void OnBannerClick(int position) {
-                BannerResult bannerResult = bannerResults.get(position);
-                gotoWebViewActivityFromBanner(bannerResult);
-            }
-        });
         banner.start();
 
     }
@@ -210,7 +232,7 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
         gridViewPager.setOnGridItemClickListener(new GridViewPager.OnGridItemClickListener() {
             @Override
             public void onGridItemClick(int position, View view) {
-
+                gotoWeChatArticleListActivity(weChatAuthorResults.get(position));
             }
         });
 
@@ -234,17 +256,12 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
         if (result != null) {
             List<HomeArticleResult.DatasBean> datas = result.getDatas();
             if (datas != null && datas.size() > 0) {
-                if (homeArticleAdapter == null) {
-                    homeArticleAdapter = new HomeArticleAdapter(R.layout.item_home_article,datas);
-                    homeArticleAdapter.addHeaderView(headerView);
-                    recyclerView.setAdapter(homeArticleAdapter);
-                } else {
                     if (page == 0){
                         homeArticleAdapter.setNewData(datas);
                     } else {
                         homeArticleAdapter.addData(datas);
                     }
-                }
+
 
 
 
@@ -282,5 +299,32 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
     @Override
     public void onClick(View view) {
 
+    }
+
+    /**
+     * 跳转至微信公众号文章列表页面
+     *
+     * @param weChatAuthorResult
+     */
+    private void gotoWeChatArticleListActivity(WeChatAuthorResult weChatAuthorResult) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("WeChatAuthorResult", weChatAuthorResult);
+        ARouter.getInstance()
+                .build("/wechat/WeChatArticleListActivity")
+                .withBundle("bundle", bundle)
+                .navigation();
+    }
+
+    private void gotoWebViewActivity(HomeArticleResult.DatasBean datasBean) {
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.URL, datasBean.getLink());
+        bundle.putInt(Constants.ID, datasBean.getId());
+        bundle.putString(Constants.AUTHOR, datasBean.getAuthor());
+        bundle.putString(Constants.TITLE, datasBean.getTitle());
+        ARouter.getInstance()
+                .build("/web/WebViewActivity")
+                .with(bundle)
+                .navigation();
+        getActivity().overridePendingTransition(R.anim.anim_web_enter, R.anim.anim_alpha);
     }
 }

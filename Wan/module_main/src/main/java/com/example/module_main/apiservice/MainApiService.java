@@ -1,8 +1,10 @@
 package com.example.module_main.apiservice;
 
 import com.example.common_base.base.BaseResponse;
+import com.example.common_base.mvp.BasePresenter;
 import com.example.module_main.bean.BannerResult;
 import com.example.module_main.bean.HomeArticleResult;
+import com.example.module_main.bean.WeChatArticleResult;
 import com.example.module_main.bean.WeChatAuthorResult;
 
 import java.util.List;
@@ -26,5 +28,8 @@ public interface MainApiService {
 
     @GET("wxarticle/chapters/json")
     Observable<BaseResponse<List<WeChatAuthorResult>>> getWeChatAuthors();
+
+    @GET("wxarticle/list/{id}/{page}/json")
+    Observable<BaseResponse<WeChatArticleResult>> getWeChatArticles(@Path("id") String id,@Path("page") int page);
 
 }

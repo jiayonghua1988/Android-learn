@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
-import android.widget.Toolbar;
+
+
+import androidx.appcompat.widget.Toolbar;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.example.common_base.base.BaseMVPActivity;
@@ -15,9 +18,11 @@ import com.example.common_base.constants.Constants;
 import com.example.common_base.mvp.IPresenter;
 import com.example.common_base.widget.ProgressWebView;
 import com.example.module_main.R;
+import com.example.module_main.contract.WebContract;
+import com.example.module_main.presenter.WebPresenter;
 
 @Route(path = "/web/WebViewActivity")
-public class WebViewActivity extends BaseMVPActivity {
+public class WebViewActivity extends BaseMVPActivity<WebPresenter> implements WebContract.View {
 
 
     private ProgressWebView webView;
@@ -30,10 +35,6 @@ public class WebViewActivity extends BaseMVPActivity {
     private MenuItem shareMenuItem;
     private boolean hadFavorited = false;
 
-    @Override
-    protected IPresenter createPresenter() {
-        return null;
-    }
 
     @Override
     protected int getLayoutResId() {
@@ -43,6 +44,15 @@ public class WebViewActivity extends BaseMVPActivity {
     @Override
     protected void initView() {
         webView = findViewById(R.id.wv_web);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleWebViewBack();
+            }
+        });
         webView.setWebViewCallback(new ProgressWebView.WebViewCallback() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
@@ -100,7 +110,39 @@ public class WebViewActivity extends BaseMVPActivity {
             id = intent.getIntExtra(Constants.ID, -1);
             title = intent.getStringExtra(Constants.TITLE);
             author = intent.getStringExtra(Constants.AUTHOR);
+            toolbar.setTitle(title);
             webView.loadUrl(url);
+
         }
+    }
+
+    private void handleWebViewBack() {
+        if (webView.canGoBack()) {
+            webView.goBack();
+        } else {
+            finish();
+        }
+    }
+
+    @Override
+    protected WebPresenter createPresenter() {
+        return new WebPresenter();
+    }
+
+    @Override
+    public void onFavoriteAdded() {
+
+    }
+
+    @Override
+    public void onFavoriteDeleted() {
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        webView.removeAllViews();
+        webView = null;
     }
 }

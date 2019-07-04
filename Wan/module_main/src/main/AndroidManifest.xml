@@ -8,6 +8,8 @@
             />
         <activity android:name=".activity.WebViewActivity" />
 
+        <activity android:name=".activity.WeChatArticleListActivity"/>
+
     </application>
 
 </manifest>
