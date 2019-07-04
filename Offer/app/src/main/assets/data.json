@@ -1,12 +1,210 @@
 {
   "list": [{
     "id": "1",
-    "question": "11111",
-    "answer": "222"
+    "question": "请介绍下Android的数据存储方式",
+    "answer": "使用SharedPreferences存储数据；\n文件；\n数据库\nContentProvider\n网络"
   },
     {
-      "id": "1",
-      "question": "11111",
-      "answer": "222"
+      "id": "2",
+      "question": "请解释下在单线程模型中Message、Handler、Message Queue、Looper之间的关系",
+      "answer": "Handler获取当前线程中的looper对象，looper用来从存放Message的MessageQueue中取出Message，再有Handler进行Message的分发和处理.\n\nMessage Queue(消息队列)：用来存放通过Handler发布的消息，通常附属于某一个创建它的线程，可以通过Looper.myQueue()得到当前线程的消息队列\n\nHandler：可以发布或者处理一个消息或者操作一个Runnable，通过Handler发布消息，消息将只会发送到与它关联的消息队列，然也只能处理该消息队列中的消息\n\nLooper：是Handler和消息队列之间通讯桥梁，程序组件首先通过Handler把消息传递给Looper，Looper把消息放入队列。Looper也把消息队列里的消息广播给所有的\n\nHandler：Handler接受到消息后调用handleMessage进行处理\n\nMessage：消息的类型，在Handler类中的handleMessage方法中得到单个的消息进行处理"
+    },
+    {
+      "id": "3",
+      "question": " 什么是ANR 如何避免它？",
+      "answer": "ANR：Application Not Responding。在Android中，活动管理器和窗口管理器这两个系统服务负责监视应用程序的响应，当用户操作的在5s内应用程序没能做出反应，BroadcastReceiver在10秒内没有执行完毕，就会出现应用程序无响应对话框，这既是ANR。\n\n避免方法：Activity应该在它的关键生命周期方法（如onCreate()和onResume()）里尽可能少的去做创建操作。潜在的耗时操作，例如网络或数据库操作，或者高耗时的计算如改变位图尺寸，应该在子线程里（或者异步方式）来完成。主线程应该为子线程提供一个Handler，以便完成时能够提交给主线程。"
+    },{
+      "id": "4",
+      "question": "描述一下android的系统架构",
+      "answer": "android系统架构分从下往上为linux 内核层、运行库、应用程序框架层、和应用程序层。"
+    },{
+      "id": "5",
+      "question": "请介绍下ContentProvider是如何实现数据共享的",
+      "answer": "一个程序可以通过实现一个Content provider的抽象接口将自己的数据完全暴露出去，而且Content providers是以类似数据库中表的方式将数据暴露。Content providers存储和检索数据，通过它可以让所有的应用程序访问到，这也是应用程序之间唯一共享数据的方法。\n\n要想使应用程序的数据公开化，可通过2种方法：创建一个属于你自己的Content provider或者将你的数据添加到一个已经存在的Content provider中，前提是有相同数据类型并且有写入Content provider的权限。\n\n如何通过一套标准及统一的接口获取其他应用程序暴露的数据？\n\nAndroid提供了ContentResolver，外界的程序可以通过ContentResolver接口访问ContentProvider提供的数据。"
+    },{
+      "id": "6",
+      "question": "Service和Thread的区别？",
+      "answer": "servie是系统的组件，它由系统进程托管（servicemanager）；它们之间的通信类似于client和server，是一种轻量级的ipc通信，这种通信的载体是binder，它是在linux层交换信息的一种ipc。而thread是由本应用程序托管。1). Thread：Thread 是程序执行的最小单元，它是分配CPU的基本单位。可以用 Thread 来执行一些异步的操作。"
+    },{
+      "id": "7",
+      "question": "IntentService有何优点?",
+      "answer": "Acitivity的进程，当处理Intent的时候，会产生一个对应的Service； Android的进程处理器现在会尽可能的不kill掉你；非常容易使用"
+    },{
+      "id": "8",
+      "question": "如果后台的Activity由于某原因被系统回收了，如何在被系统回收之前保存当前状态？",
+      "answer": "重写onSaveInstanceState()方法，在此方法中保存需要保存的数据，该方法将会在activity被回收之前调用。通过重写onRestoreInstanceState()方法可以从中提取保存好的数据"
+    },{
+      "id": "9",
+      "question": " 如何退出Activity？如何安全退出已调用多个Activity的Application？",
+      "answer": "发送特定广播\n递归退出"
+    },{
+      "id": "10",
+      "question": "AIDL的全称是什么？如何工作？能处理哪些类型的数据？",
+      "answer": "全称是：Android Interface Define Language\n\n在Android中, 每个应用程序都可以有自己的进程. 在写UI应用的时候, 经常要用到Service. 在不同的进程中, 怎样传递对象呢?显然, Java中不允许跨进程内存共享. 因此传递对象, 只能把对象拆分成操作系统能理解的简单形式, 以达到跨界对象访问的目的. 在J2EE中,采用RMI的方式, 可以通过序列化传递对象. 在Android中, 则采用AIDL的方式. 理论上AIDL可以传递Bundle,实际上做起来却比较麻烦。\n\nAIDL(AndRoid接口描述语言)是一种借口描述语言; 编译器可以通过aidl文件生成一段代码，通过预先定义的接口达到两个进程内部通信进程的目的. 如果需要在一个Activity中, 访问另一个Service中的某个对象, 需要先将对象转化成AIDL可识别的参数(可能是多个参数), 然后使用AIDL来传递这些参数, 在消息的接收端, 使用这些参数组装成自己需要的对象.\n\nAIDL的IPC的机制和COM或CORBA类似, 是基于接口的，但它是轻量级的。它使用代理类在客户端和实现层间传递值. 如果要使用AIDL, 需要完成2件事情: 1. 引入AIDL的相关类.; 2. 调用aidl产生的class."
+    },{
+      "id": "11",
+      "question": "请解释下Android程序运行时权限与文件系统权限的区别。",
+      "answer": "运行时权限Dalvik( android授权) \n文件系统 linux 内核授权"
+    },{
+      "id": "12",
+      "question": "系统上安装了多种浏览器，能否指定某浏览器访问指定页面？请说明原由。",
+      "answer": "通过直接发送Uri把参数带过去，或者通过manifest里的intentfilter里的data属性"
+    },{
+      "id": "13",
+      "question": "Android dvm的进程和Linux的进程, 应用程序的进程是否为同一个概念",
+      "answer": "DVM指dalivk的虚拟机。每一个Android应用程序都在它自己的进程中运行，都拥有一个独立的Dalvik虚拟机实例。而每一个DVM都是在Linux 中的一个进程，所以说可以认为是同一个概念。"
+    },{
+      "id": "14",
+      "question": "java中如何引用本地语言",
+      "answer": "可以用JNI（java native interface  java 本地接口）接口 。"
+    },{
+      "id": "15",
+      "question": "谈谈Android的IPC（进程间通信）机制 ",
+      "answer": "IPC是内部进程通信的简称， 是共享\"命名管道\"的资源。Android中的IPC机制是为了让Activity和Service之间可以随时的进行交互，故在Android中该机制，只适用于Activity和Service之间的通信，类似于远程方法调用，类似于C/S模式的访问。通过定义AIDL接口文件来定义IPC接口。Servier端实现IPC接口，Client端调用IPC接口本地代理。"
+    },{
+      "id": "16",
+      "question": "NDK是什么",
+      "answer": "NDK是一些列工具的集合，NDK提供了一系列的工具，帮助开发者迅速的开发C/C++的动态库，并能自动将so和java 应用打成apk包。\n\nNDK集成了交叉编译器，并提供了相应的mk文件和隔离cpu、平台等的差异，开发人员只需简单的修改mk文件就可以创建出so"
+    },{
+      "id": "17",
+      "question": "",
+      "answer": ""
+    },{
+      "id": "18",
+      "question": "",
+      "answer": ""
+    },{
+      "id": "19",
+      "question": "",
+      "answer": ""
+    },{
+      "id": "20",
+      "question": "",
+      "answer": ""
+    },{
+      "id": "21",
+      "question": "",
+      "answer": ""
+    },{
+      "id": "22",
+      "question": "",
+      "answer": ""
+    },{
+      "id": "23",
+      "question": "",
+      "answer": ""
+    },{
+      "id": "24",
+      "question": "",
+      "answer": ""
+    },{
+      "id": "25",
+      "question": "",
+      "answer": ""
+    },{
+      "id": "26",
+      "question": "",
+      "answer": ""
+    },{
+      "id": "27",
+      "question": "",
+      "answer": ""
+    },{
+      "id": "28",
+      "question": "",
+      "answer": ""
+    },{
+      "id": "29",
+      "question": "",
+      "answer": ""
+    },{
+      "id": "30",
+      "question": "",
+      "answer": ""
+    },{
+      "id": "31",
+      "question": "",
+      "answer": ""
+    },{
+      "id": "32",
+      "question": "",
+      "answer": ""
+    },{
+      "id": "33",
+      "question": "",
+      "answer": ""
+    },{
+      "id": "34",
+      "question": "",
+      "answer": ""
+    },{
+      "id": "35",
+      "question": "",
+      "answer": ""
+    },{
+      "id": "36",
+      "question": "",
+      "answer": ""
+    },{
+      "id": "37",
+      "question": "",
+      "answer": ""
+    },{
+      "id": "38",
+      "question": "",
+      "answer": ""
+    },{
+      "id": "39",
+      "question": "",
+      "answer": ""
+    },{
+      "id": "40",
+      "question": "",
+      "answer": ""
+    },{
+      "id": "41",
+      "question": "",
+      "answer": ""
+    },{
+      "id": "42",
+      "question": "",
+      "answer": ""
+    },{
+      "id": "43",
+      "question": "",
+      "answer": ""
+    },{
+      "id": "44",
+      "question": "",
+      "answer": ""
+    },{
+      "id": "45",
+      "question": "",
+      "answer": ""
+    },{
+      "id": "46",
+      "question": "",
+      "answer": ""
+    },{
+      "id": "47",
+      "question": "",
+      "answer": ""
+    },{
+      "id": "48",
+      "question": "",
+      "answer": ""
+    },{
+      "id": "49",
+      "question": "",
+      "answer": ""
+    },{
+      "id": "50",
+      "question": "",
+      "answer": ""
+    },
+    {
+      "id": "51",
+      "question": "",
+      "answer": ""
     }]
 }
