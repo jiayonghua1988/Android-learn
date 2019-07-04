@@ -1,8 +1,11 @@
 package com.example.module_main.activity;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.ValueCallback;
@@ -13,6 +16,7 @@ import android.webkit.WebView;
 import androidx.appcompat.widget.Toolbar;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.common_base.base.BaseMVPActivity;
 import com.example.common_base.constants.Constants;
 import com.example.common_base.mvp.IPresenter;
@@ -144,5 +148,18 @@ public class WebViewActivity extends BaseMVPActivity<WebPresenter> implements We
         super.onDestroy();
         webView.removeAllViews();
         webView = null;
+    }
+
+    public static void startPage(Activity context, String url, int id, String title) {
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.URL, url);
+        bundle.putInt(Constants.ID, id);
+        bundle.putString(Constants.AUTHOR, null);
+        bundle.putString(Constants.TITLE, title);
+
+        ARouter.getInstance().build("/web/WebViewActivity")
+                .with(bundle)
+                .navigation();
+        context.overridePendingTransition(R.anim.anim_web_enter, R.anim.anim_alpha);
     }
 }

@@ -28,6 +28,7 @@ import com.example.common_base.widget.gridviewpager.GridRecyclerAdapter;
 import com.example.common_base.widget.gridviewpager.GridViewPager;
 import com.example.common_base.widget.gridviewpager.GridViewPagerAdapter;
 import com.example.module_main.R;
+import com.example.module_main.activity.WebViewActivity;
 import com.example.module_main.activity._MainActivity;
 import com.example.module_main.adapter.HomeArticleAdapter;
 import com.example.module_main.bean.BannerResult;
@@ -111,7 +112,8 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
         homeArticleAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                gotoWebViewActivity((HomeArticleResult.DatasBean)adapter.getItem(position));
+                HomeArticleResult.DatasBean datasBean = (HomeArticleResult.DatasBean)adapter.getItem(position);
+                WebViewActivity.startPage(getActivity(),datasBean.getLink(),datasBean.getId(),datasBean.getTitle());
             }
         });
 
@@ -180,7 +182,7 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
                 Log.e("Test","banner:" +position);
                 if (bannerResults != null && bannerResults.size() > position) {
                     BannerResult bannerResult = bannerResults.get(position);
-                    gotoWebViewActivityFromBanner(bannerResult);
+                    WebViewActivity.startPage(getActivity(),bannerResult.getUrl(),bannerResult.getId(),bannerResult.getTitle());
                 }
             }
         });
@@ -279,22 +281,6 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
         return list;
     }
 
-    private void gotoWebViewActivityFromBanner(BannerResult bannerResult) {
-        if (bannerResult == null) {
-            return;
-        }
-        Bundle bundle = new Bundle();
-        bundle.putString(Constants.URL, bannerResult.getUrl());
-        bundle.putInt(Constants.ID, bannerResult.getId());
-        bundle.putString(Constants.AUTHOR, null);
-        bundle.putString(Constants.TITLE, bannerResult.getTitle());
-
-        ARouter.getInstance().build("/web/WebViewActivity")
-                .with(bundle)
-                .navigation();
-        getActivity().overridePendingTransition(R.anim.anim_web_enter, R.anim.anim_alpha);
-
-    }
 
     @Override
     public void onClick(View view) {
@@ -313,18 +299,5 @@ public class HomeFragment extends BaseMVPFragment<HomePresenter> implements Home
                 .build("/wechat/WeChatArticleListActivity")
                 .withBundle("bundle", bundle)
                 .navigation();
-    }
-
-    private void gotoWebViewActivity(HomeArticleResult.DatasBean datasBean) {
-        Bundle bundle = new Bundle();
-        bundle.putString(Constants.URL, datasBean.getLink());
-        bundle.putInt(Constants.ID, datasBean.getId());
-        bundle.putString(Constants.AUTHOR, datasBean.getAuthor());
-        bundle.putString(Constants.TITLE, datasBean.getTitle());
-        ARouter.getInstance()
-                .build("/web/WebViewActivity")
-                .with(bundle)
-                .navigation();
-        getActivity().overridePendingTransition(R.anim.anim_web_enter, R.anim.anim_alpha);
     }
 }
