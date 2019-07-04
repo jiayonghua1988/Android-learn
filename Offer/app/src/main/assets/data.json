@@ -67,32 +67,32 @@
       "answer": "NDK是一些列工具的集合，NDK提供了一系列的工具，帮助开发者迅速的开发C/C++的动态库，并能自动将so和java 应用打成apk包。\n\nNDK集成了交叉编译器，并提供了相应的mk文件和隔离cpu、平台等的差异，开发人员只需简单的修改mk文件就可以创建出so"
     },{
       "id": "17",
-      "question": "",
-      "answer": ""
+      "question": "线程间的通信方式",
+      "answer": "一种是AsyncTask机制，另一种是Handler机制"
     },{
       "id": "18",
-      "question": "",
-      "answer": ""
+      "question": "进程",
+      "answer": "一个应用程序就是一个独立的进程  当我们启动一个应用程序时，系统会创建一个进程  并为这个进程创建一个主线程（UI线程） 应用程序的组件默认都是运行在它的进程中，但我们可以通过指定应用的组件（四大组件）的运行进程:`android:process`"
     },{
       "id": "19",
-      "question": "",
-      "answer": ""
+      "question": "线程",
+      "answer": "线程会有那么几种状态：创建，就绪，运行，阻塞，死亡。当应用程序有组件在运行时，UI线程是处于运行状态的 应用的所有组件的操作都是在UI线程里完成的 因此如果UI线程处理阻塞状态时(在线程里做一些耗时的操作，如网络连接等)，就会不能响应各种操作，如果阻塞时间达到5秒，就会让程序处于ANR"
     },{
       "id": "20",
-      "question": "",
-      "answer": ""
+      "question": "Android线程间通信方式之AsyncTask机制",
+      "answer": "AsyncTask，异步任务，也就是说在UI线程运行的时候，可以在后台的执行一些异步的操作；AsyncTask可以很容易且正确地使用UI线程，AsyncTask允许进行后台操"
     },{
       "id": "21",
-      "question": "",
-      "answer": ""
+      "question": "Android线程间通信方式之Handler机制",
+      "answer": "Handler，发送和处理Message对象和Runnable对象；\nLooper，用于从MessageQueue中取出消息(Message)对象，并发送给Handler处理；\nMessageQueue，消息队列，用于存放通过Handler发布的消息；\n\nMessage，消息的类型，里面包含几个实例对象：\nwhat，用户定义的int型消息代码，用来描述消息；\nobj，随消息发送的用户用户指定对象；\n\ntarget，处理消息的Handler;"
     },{
       "id": "22",
-      "question": "",
-      "answer": ""
+      "question": "okHttp 原理",
+      "answer": "okhttp的总体设计图如下，首先通过构建者模式构建Request。(okhttp中几乎所有的类都用到了构建者模式)之后将request分发到Dispatcher中，然后再分发到HttpEngine中。\n\nHttpEngine首先查看本次请求是否有缓存(Cache)。如果有，就从Cache中拿到信息直接给Response。如果没有，则会把这次请求发到ConnectionPool中，从连接池中获取到Connection以后，通过Connection去发送真正的请求。请求到之后，又通过Route和Platform找到一个合适的平台。最后通过Server Socket去获取Data。\n--------------------- \n作者：N0tExpectErr0r \n来源：CSDN \n原文：https://blog.csdn.net/qq_21556263/article/details/82768320 \n版权声明：本文为博主原创文章，转载请附上博文链接！"
     },{
       "id": "23",
-      "question": "",
-      "answer": ""
+      "question": "HTTP工作流程",
+      "answer": "\n    首先，客户机与服务器要建立连接\n    建立连接后，客户机发送请求给服务器\n    服务器接收到请求后，给予响应的响应\n    客户端接收服务器返回的信息，断开连接\n"
     },{
       "id": "24",
       "question": "",
